@@ -54,12 +54,13 @@ public class SunriseSunsetServiceImpl implements SunriseSunsetService {
     }
 
     Mono<GeoTimesResponse> get(final Mono<String> monoUrl) {
-        return monoUrl.flatMap(url -> webClient
+       return monoUrl.flatMap(url -> webClient
                 .get()
                 .uri(url)
                 .accept(MediaType.APPLICATION_JSON)
                 .exchange()
                 .flatMap(clientResponse -> clientResponse.bodyToMono(GeoTimesResponse.class)));
+       //return Mono.just(new GeoTimesResponse());
     }
 
     Mono<SunriseSunset> createResult(final Mono<GeoTimesResponse> geoTimesResponseMono) {

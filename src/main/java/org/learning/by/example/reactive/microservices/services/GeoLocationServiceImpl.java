@@ -1,11 +1,12 @@
 package org.learning.by.example.reactive.microservices.services;
 
-import org.learning.by.example.reactive.microservices.exceptions.GetGeoLocationException;
 import org.learning.by.example.reactive.microservices.exceptions.GeoLocationNotFoundException;
+import org.learning.by.example.reactive.microservices.exceptions.GetGeoLocationException;
 import org.learning.by.example.reactive.microservices.exceptions.InvalidParametersException;
-import org.learning.by.example.reactive.microservices.model.GeographicCoordinates;
 import org.learning.by.example.reactive.microservices.model.GeoLocationResponse;
+import org.learning.by.example.reactive.microservices.model.GeographicCoordinates;
 import org.springframework.http.MediaType;
+import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
@@ -16,8 +17,9 @@ public class GeoLocationServiceImpl implements GeoLocationService {
     private static final String ERROR_GETTING_LOCATION = "error getting location";
     private static final String ERROR_LOCATION_WAS_NULL = "error location was null";
     private static final String ADDRESS_NOT_FOUND = "address not found";
-    private static final String ADDRESS_PARAMETER = "?address=";
+    private static final String ADDRESS_PARAMETER = "?key=AIzaSyBa6jGgmCWGGt21XTKs-YyA9FOGwaaBwtk&address=";
     private static final String MISSING_ADDRESS = "missing address";
+
     WebClient webClient;
     private final String endPoint;
 
@@ -45,12 +47,12 @@ public class GeoLocationServiceImpl implements GeoLocationService {
     }
 
     Mono<GeoLocationResponse> get(final Mono<String> urlMono) {
-        return urlMono.flatMap(url -> webClient
-                .get()
-                .uri(url)
-                .accept(MediaType.APPLICATION_JSON)
-                .exchange()
-                .flatMap(clientResponse -> clientResponse.bodyToMono(GeoLocationResponse.class)));
+        return urlMono.
+                flatMap(url -> webClient.get().uri(url).accept(MediaType.APPLICATION_JSON).exchange().flatMap(clientResponse -> clientResponse.bodyToMono(GeoLocationResponse.class)));
+        /*GeoLocationResponse.Result.Address_component address_component = new  GeoLocationResponse.Result.Address_component("Google Building 41", "Google Building 41", new String[]{"premise"});
+        GeoLocationResponse.Result result = new GeoLocationResponse.Result(address_component, "Google Building 41, 1600 Amphitheatre Pkwy, Mountain View, CA 94043, États-Unis", );
+
+        return urlMono.just(new GeoLocationResponse(new GeoLocationResponse.Result[]{result}, OK_STATUS));*/
     }
 
     Mono<GeographicCoordinates> geometryLocation(final Mono<GeoLocationResponse> geoLocationResponseMono) {
@@ -69,6 +71,7 @@ public class GeoLocationServiceImpl implements GeoLocationService {
                     } else {
                         return Mono.error(new GetGeoLocationException(ERROR_LOCATION_WAS_NULL));
                     }
+                    //return Mono.just(new GeographicCoordinates(0d, 0d));
                 }
         );
     }

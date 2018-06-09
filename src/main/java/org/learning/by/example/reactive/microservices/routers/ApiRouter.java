@@ -1,7 +1,7 @@
 package org.learning.by.example.reactive.microservices.routers;
 
-import org.learning.by.example.reactive.microservices.handlers.ErrorHandler;
 import org.learning.by.example.reactive.microservices.handlers.ApiHandler;
+import org.learning.by.example.reactive.microservices.handlers.ErrorHandler;
 import org.springframework.web.reactive.function.server.RequestPredicates;
 import org.springframework.web.reactive.function.server.RouterFunction;
 

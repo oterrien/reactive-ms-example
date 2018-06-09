@@ -1,5 +1,4 @@
 logging.level.root: INFO
-GeoLocationServiceImpl:
-  endPoint: "https://maps.googleapis.com/maps/api/geocode/json"
-SunriseSunsetServiceImpl:
-  endPoint: "https://api.sunrise-sunset.org/json"
+
+GeoLocationServiceImpl.endPoint: "https://maps.googleapis.com/maps/api/geocode/json"
+SunriseSunsetServiceImpl.endPoint: "http://api.sunrise-sunset.org/json"
